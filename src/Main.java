@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Crawling...");
-        Index ind = new Index("https://www.petfinder.com/cat-breeds/collections/cutest-cat-breeds/",100);
+        Index ind = new Index("https://www.petfinder.com/cat-breeds/collections/cutest-cat-breeds/",100,null);
         String search = "cat";
         System.out.println("Searching...");
         String[] query = search.toLowerCase().replaceAll("[^a-z ]", " ").split("\\s+");

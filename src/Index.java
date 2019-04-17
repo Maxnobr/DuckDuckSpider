@@ -3,6 +3,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,8 @@ public class Index {
 
     private Page firstPage = null;
     private int pageCount = 0;
+    private JEditorPane output;
+
     public static List<String> crapWords = Arrays.asList("a","about","after","all","also","an","any","and","are","as","at","back",
             "be","been","being","between","but","by","can","com","could","do","did","first","for","from","have","havent",
             "had","has","have","her","him","his","how","i","if","in","into","is","isnt","it","its","just","like",
@@ -20,7 +23,10 @@ public class Index {
             "time","up","was","wasnt","way","we","were","werent","what","when","where","which","who","will","with",
             "would","you","your","youre","yours");
 
-    Index(String url, int maxPages){
+    Index(String url, int maxPages, JEditorPane output){
+        if(output != null)
+            this.output = output;
+
         try {
             addPage(url);
         } catch (Exception e) {
@@ -50,6 +56,8 @@ public class Index {
         int i = 1;
         while(temp != null) {
             System.out.print("Searching page #"+i++);
+            if(output != null)
+                output.setText(output.getText()+"\nSearching page #"+i);
             temp.searchValue = -temp.words.findWord(and,words);
             if(temp.searchValue < 0){
                 matches.add(temp);
@@ -93,6 +101,8 @@ public class Index {
         Page newOne = new Page(doc.title(),url,nLinks,words);
         pageCount++;
         System.out.println("Crawling Page #"+pageCount);
+        if(output != null)
+            output.setText(output.getText()+"\nCrawling Page #"+pageCount);
         if(firstPage == null) firstPage = newOne;
         else{
             Page temp = firstPage;

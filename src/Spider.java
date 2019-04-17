@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Spider extends JFrame implements ActionListener {
 
-    private static final String DEFAULT_URL = "https://www.petfinder.com/cat-breeds/collections/cutest-cat-breeds/";
+    private static final String DEFAULT_URL = "https://www.w3schools.com/";
     private JTextField url;         //textfield to enter the remote machine
     private JTextField maxSites;    //textfield to enter the remote file name
     private JEditorPane result;        //textarea to display everything the server returns
@@ -31,7 +31,7 @@ public class Spider extends JFrame implements ActionListener {
     private Spider() {
 
         this.add(textField, BorderLayout.SOUTH);
-        String placeHolderText = "Type";
+        String placeHolderText = "Type your search";
         textField.setText(placeHolderText);
         textField.setColumns(5);
         textField.addFocusListener(new FocusListener() {
@@ -114,24 +114,17 @@ public class Spider extends JFrame implements ActionListener {
 
         setBounds(50, 150, 1400, 700);
 
-        result = new JEditorPane();//JTextArea(NROWS, NCOLS);
+        result = new JEditorPane();
         result.setEditable(false);
         HTMLEditorKit editorKit = new HTMLEditorKit();
         result.setEditorKit(editorKit);
-        Dimension size = new Dimension(getWidth()-10,getHeight());
+        Dimension size = new Dimension(getWidth()-70,getHeight()-150);
         result.setSize(size);
         result.setMinimumSize(size);
         result.setMaximumSize(size);
         result.setOpaque(true);
-        StringBuilder sb = new StringBuilder();
-        for(int y = 0;y < 16;y++){
-            sb.append("<p>");
-            for(int x = 0;x < 180;x++)
-                sb.append("*");
-            sb.append("\n</p>");
-        }
-        result.setText(sb.toString());
-        JScrollPane jsp = new JScrollPane(result);    //place textarea in a scrollpane
+        result.setText("<div height=\""+size.height+"\" width=\""+size.width+"\"></div>");
+        JScrollPane jsp = new JScrollPane(result);    //place editorPane in a scrollpane
         JPanel pane = new JPanel();   //panel to place in content pane's center
         pane.add(jsp);
         cp.add(pane, BorderLayout.CENTER);
@@ -145,14 +138,14 @@ public class Spider extends JFrame implements ActionListener {
                 }
             }
         });
-        //result.setText("");
 
         setVisible(true);
     }//constructor
 
     public void actionPerformed(ActionEvent e) {
         System.out.println("Spider crawling...");
-        result.setText("");
-        ind = new Index(url.getText(),Integer.parseInt(maxSites.getText()));
+        result.setText("Spider crawling...");
+        ind = new Index(url.getText(),Integer.parseInt(maxSites.getText()),result);
+        result.setText("Done! Ready for Searching!");
     }//actionPerformed
 }//class
